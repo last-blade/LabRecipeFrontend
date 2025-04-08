@@ -3,7 +3,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 // Base API URL
-const API_URL = "http://localhost:3000/api/v1";
+const API_URL = "https://labrecipebackend.onrender.com/api/v1";
 
 // Create axios instance with default config
 const api = axios.create({
@@ -99,7 +99,7 @@ export const recipeService = {
   createRecipe: async (recipeData) => {
     try {
       const response = await api.post(
-        "http://localhost:3000/api/v1/recipe/create-recipe",
+        "https://labrecipebackend.onrender.com/api/v1/recipe/create-recipe",
         recipeData
       );
       return response.data;
@@ -111,7 +111,7 @@ export const recipeService = {
   getAllRecipes: async (page = 1, limit = 10) => {
     try {
       const response = await api.get(
-        `http://localhost:3000/api/v1/recipe/view-all-recipes?page=${page}&limit=${limit}`
+        `https://labrecipebackend.onrender.com/api/v1/recipe/view-all-recipes?page=${page}&limit=${limit}`
       );
       return response.data;
     } catch (error) {
@@ -122,7 +122,7 @@ export const recipeService = {
   getRecipe: async (recipeId) => {
     try {
       const response = await api.get(
-        `http://localhost:3000/api/v1/recipe/view-recipe/${recipeId}`
+        `https://labrecipebackend.onrender.com/api/v1/recipe/view-recipe/${recipeId}`
       );
       return response.data;
     } catch (error) {
@@ -133,7 +133,7 @@ export const recipeService = {
   updateRecipe: async (recipeId, recipeData) => {
     try {
       const response = await api.put(
-        `http://localhost:3000/api/v1/recipe/edit-recipe/${recipeId}`,
+        `https://labrecipebackend.onrender.com/api/v1/recipe/edit-recipe/${recipeId}`,
         recipeData
       );
       return response.data;
