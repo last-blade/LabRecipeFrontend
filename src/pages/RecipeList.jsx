@@ -23,7 +23,7 @@ const RecipeList = () => {
       setIsLoading(true);
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/v1/recipe/view-all-recipes",
+          "https://labrecipebackend.onrender.com/api/v1/recipe/view-all-recipes",
           { withCredentials: true }
         );
         let fetchedRecipes = response.data.data?.labRecipes || [];

@@ -30,7 +30,7 @@ const Login = () => {
     try {
       // Send the login request to the API
       const response = await axios.post(
-        "http://localhost:3000/api/v1/user/login",
+        "https://labrecipebackend.onrender.com/api/v1/user/login",
         data,
         { withCredentials: true } // Ensures the cookie is sent with the request
       );

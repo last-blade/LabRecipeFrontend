@@ -18,7 +18,7 @@ const Sidebar = () => {
   const handleLogout = async () => {
     try {
       await axios.post(
-        "http://localhost:3000/api/v1/user/logout",
+        "https://labrecipebackend.onrender.com/api/v1/user/logout",
         {},
         { withCredentials: true }
       );
