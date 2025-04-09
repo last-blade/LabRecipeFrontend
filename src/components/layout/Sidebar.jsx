@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Home, ClipboardList, Menu, X, Moon, Sun, User } from "lucide-react";
 import { useThemeStore } from "../../zustand/themeStore";
 import axios from "axios";
-import Logout from "../../zustand/authStore"
+import {Logout} from "../../zustand/authStore"
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,7 +18,7 @@ const Sidebar = () => {
 
   const handleLogout = async () => {
     try {
-      await logout(); // this should call your axios.post + set isAuthenticated to false
+      await Logout(); // this should call your axios.post + set isAuthenticated to false
       navigate("/login");
     } catch (error) {
       console.error("Logout failed:", error);
