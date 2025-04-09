@@ -37,6 +37,7 @@ const Login = () => {
 
       if (response.status === 200) {
         // Redirect to the dashboard page after successful login
+        console.log("dashboard navigate")
         navigate("/dashboard");
       }
     } catch (err) {
