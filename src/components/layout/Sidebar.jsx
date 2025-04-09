@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Home, ClipboardList, Menu, X, Moon, Sun, User } from "lucide-react";
 import { useThemeStore } from "../../zustand/themeStore";
 import axios from "axios";
+import Logout from "../../zustand/authStore"
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,15 +18,7 @@ const Sidebar = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(
-        "https://labrecipebackend.onrender.com/api/v1/user/logout",
-        {},
-        { withCredentials: true }
-      );
-
-      // Optional: Clear tokens or localStorage if used
-      localStorage.removeItem("token"); // if you're storing token
-
+      await logout(); // this should call your axios.post + set isAuthenticated to false
       navigate("/login");
     } catch (error) {
       console.error("Logout failed:", error);

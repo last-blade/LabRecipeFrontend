@@ -33,24 +33,11 @@ export const useAuthStore = create(
         }
       },
 
-      logout: async () => {
-        set({ isLoading: true });
-        try {
-          if (get().isAuthenticated) {
-            await authService.logout();
-          }
-        } catch (error) {
-          console.error("Logout error:", error);
-        } finally {
-          set({
-            user: null,
-            token: null,
-            isAuthenticated: false,
-            isLoading: false,
-            error: null,
-          });
-        }
-      },
+logout: async () => {
+  await await authService.logout(), {}, { withCredentials: true };
+  set({ isAuthenticated: false });
+},
+
 
       register: async (userData) => {
         set({ isLoading: true, error: null });
