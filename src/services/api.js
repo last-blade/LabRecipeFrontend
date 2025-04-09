@@ -56,9 +56,9 @@ export const authService = {
       // After successful login, check if accessToken is available and store it in cookies
       if (Cookies.get("accessToken")) {
         // Cookies.set("accessToken", response.data.accessToken, { expires: 7 });
-        console.log("Token set in cookies:"); // Debugging line
+
       } else {
-        console.log("No accessToken received from backend"); // Debugging line
+        // console.log("No accessToken received from backend"); // Debugging line
       }
       return response.data;
     } catch (error) {

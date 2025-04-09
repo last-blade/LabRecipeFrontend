@@ -16,7 +16,7 @@ export const useAuthStore = create(
         set({ isLoading: true, error: null });
         try {
           const response = await authService.login(credentials);
-          console.log("✅ Logged in response", response); 
+          // console.log("✅ Logged in response", response); 
           set({
             user: response.user,
             isAuthenticated: true,

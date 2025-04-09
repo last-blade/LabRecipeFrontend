@@ -29,7 +29,7 @@ const Login = () => {
   const handleApiLogin = async (data) => {
     try {
       const response = await handleLogin(data); // ✅ this updates Zustand
-      console.log("dashboard navigate");
+      // console.log("dashboard navigate");
       navigate("/dashboard");
     } catch (err) {
       setLoginError(err.response?.data?.message || "Something went wrong");

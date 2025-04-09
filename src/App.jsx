@@ -33,7 +33,7 @@ const ProtectedRoute = ({ children }) => {
 
 const LoginRoute = () => {
   const { isAuthenticated, hasHydrated } = useAuthStore();
-  console.log("LoginRoute → hydrated:", hasHydrated, "auth:", isAuthenticated);
+  // console.log("LoginRoute → hydrated:", hasHydrated, "auth:", isAuthenticated);
   if (!hasHydrated) return null;
   return isAuthenticated ? <Navigate to="/dashboard" replace /> : <Login />;
 };
