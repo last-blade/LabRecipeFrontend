@@ -18,21 +18,12 @@ const api = axios.create({
 // Request interceptor for adding auth token
 api.interceptors.request.use(
   (config) => {
-    // Get the accessToken from cookies
-    const token = Cookies.get("accessToken");
-    console.log("Token from cookies:", token); // Debugging line 
-    if (token) {
-      // console.log("Token retrieved from cookies:", token); // Debugging line
-      config.headers.Authorization = `Bearer ${token}`;
-    } else {
-      console.log("No token found in cookies."); // Debugging line
-    }
+    // No need to set token manually if you're using HttpOnly cookie + withCredentials
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
+
 
 // Response interceptor for handling common errors
 api.interceptors.response.use(
@@ -64,7 +55,7 @@ export const authService = {
       const response = await api.post("/user/login", credentials);
       // After successful login, check if accessToken is available and store it in cookies
       if (response.data.accessToken) {
-        Cookies.set("accessToken", response.data.accessToken, { expires: 7 });
+        // Cookies.set("accessToken", response.data.accessToken, { expires: 7 });
         console.log("Token set in cookies:", response.data.accessToken); // Debugging line
       } else {
         console.log("No accessToken received from backend"); // Debugging line
