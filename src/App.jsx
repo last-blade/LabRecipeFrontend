@@ -23,6 +23,19 @@ const ProtectedRoute = ({ children }) => {
   return isAuthenticated ? children : <Navigate to="/login" replace />;
 };
 
+const LoginRoute = () => {
+  const { isAuthenticated, hasHydrated } = useAuthStore();
+  if (!hasHydrated) return null;
+  return isAuthenticated ? <Navigate to="/dashboard" replace /> : <Login />;
+};
+
+// ✅ Signup route wrapper (reactive redirect)
+const SignupRoute = () => {
+  const { isAuthenticated, hasHydrated } = useAuthStore();
+  if (!hasHydrated) return null;
+  return isAuthenticated ? <Navigate to="/dashboard" replace /> : <Signup />;
+};
+
 
 const App = () => {
   const { hasHydrated } = useAuthStore();
