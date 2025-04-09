@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Home, ClipboardList, Menu, X, Moon, Sun, User } from "lucide-react";
 import { useThemeStore } from "../../zustand/themeStore";
+import { useAuthStore } from "../../zustand/authStore";
 import axios from "axios";
-import {Logout} from "../../zustand/authStore"
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,6 +11,7 @@ const Sidebar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { darkMode, toggleDarkMode } = useThemeStore();
+  const { logout } = useAuthStore();
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -18,7 +19,7 @@ const Sidebar = () => {
 
   const handleLogout = async () => {
     try {
-      await Logout(); // this should call your axios.post + set isAuthenticated to false
+      await logout(); 
       navigate("/login");
     } catch (error) {
       console.error("Logout failed:", error);
