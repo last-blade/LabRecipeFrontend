@@ -61,26 +61,8 @@ const App = () => {
         <Route path="/" element={<Navigate to="/login" replace />} />
 
         {/* Redirect to /dashboard if already logged in */}
-        <Route
-          path="/login"
-          element={
-            useAuthStore.getState().isAuthenticated ? (
-              <Navigate to="/dashboard" replace />
-            ) : (
-              <Login />
-            )
-          }
-        />
-        <Route
-          path="/signup"
-          element={
-            useAuthStore.getState().isAuthenticated ? (
-              <Navigate to="/dashboard" replace />
-            ) : (
-              <Signup />
-            )
-          }
-        />
+        <Route path="/login" element={<LoginRoute />} />
+        <Route path="/signup" element={<SignupRoute />} />
 
         {/* Protected Routes */}
         <Route
