@@ -39,7 +39,7 @@ const Login = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <Card className="w-full max-w-md">
+      <Card className="w-full max-w-md pt-4">
         <div className="flex justify-center text-red-600 items-center gap-2">
           <p className="text-lg font-semibold font-mono">Lab Recipe Management</p>
           <img src="/favicon.webp" alt="Logo" className="w-8 h-8"/>
