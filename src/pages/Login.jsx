@@ -89,7 +89,7 @@ const Login = () => {
             </div>
           </form>
         </CardBody>
-        <CardFooter className="text-center">
+        {/* <CardFooter className="text-center">
           <p className="text-sm text-gray-600 dark:text-gray-400">
             Don't have an account?{" "}
             <Link
@@ -99,7 +99,7 @@ const Login = () => {
               Sign up
             </Link>
           </p>
-        </CardFooter>
+        </CardFooter> */}
       </Card>
     </div>
   );
