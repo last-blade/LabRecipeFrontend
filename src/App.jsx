@@ -27,7 +27,7 @@ const App = () => {
   if (!hasHydrated) return null;
 
   return (
-    <Router>
+    <Router basename="/">
       <Toaster
         position="top-right"
         toastOptions={{
