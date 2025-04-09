@@ -99,10 +99,10 @@ const Sidebar = () => {
             </div>
 
             {/* {showProfileMenu && ( */}
-              <div className="absolute bottom-16 left-4 w-48 bg-white dark:bg-gray-700 rounded-md mt-2">
+              <div className="absolute bottom-16 left-4 w-48 bg-white rounded-md mt-2">
                 <button
                   onClick={handleLogout}
-                  className="w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-600"
+                  className="w-full text-left text-sm text-red-600"
                 >
                   <LogOut size={16}/> Logout
                 </button>
