@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { authService } from "../services/api";
-import axios from "axios";
 
 export const useAuthStore = create(
   persist(
@@ -35,19 +34,23 @@ export const useAuthStore = create(
       },
 
       logout: async () => {
+        set({ isLoading: true });
         try {
-          await axios.post(
-            "https://labrecipebackend.onrender.com/api/v1/user/logout",
-            {},
-            { withCredentials: true }
-          )
-          set({ isAuthenticated: false }) // 🔥 This is the fix!
+          if (get().isAuthenticated) {
+            await authService.logout();
+          }
         } catch (error) {
-          console.error("Logout failed:", error)
-          throw error
+          console.error("Logout error:", error);
+        } finally {
+          set({
+            user: null,
+            token: null,
+            isAuthenticated: false,
+            isLoading: false,
+            error: null,
+          });
         }
       },
-      
 
       register: async (userData) => {
         set({ isLoading: true, error: null });
