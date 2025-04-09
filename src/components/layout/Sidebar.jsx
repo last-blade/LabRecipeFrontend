@@ -22,10 +22,9 @@ const Sidebar = () => {
         {},
         { withCredentials: true }
       );
-
-      // Optional: Clear tokens or localStorage if used
-      localStorage.removeItem("token"); // if you're storing token
-
+  
+      setAuthenticated(false); // 🔥 Update Zustand state
+  
       navigate("/login");
     } catch (error) {
       console.error("Logout failed:", error);

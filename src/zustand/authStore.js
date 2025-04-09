@@ -34,23 +34,19 @@ export const useAuthStore = create(
       },
 
       logout: async () => {
-        set({ isLoading: true });
         try {
-          if (get().isAuthenticated) {
-            await authService.logout();
-          }
+          await axios.post(
+            "https://labrecipebackend.onrender.com/api/v1/user/logout",
+            {},
+            { withCredentials: true }
+          )
+          set({ isAuthenticated: false }) // 🔥 This is the fix!
         } catch (error) {
-          console.error("Logout error:", error);
-        } finally {
-          set({
-            user: null,
-            token: null,
-            isAuthenticated: false,
-            isLoading: false,
-            error: null,
-          });
+          console.error("Logout failed:", error)
+          throw error
         }
       },
+      
 
       register: async (userData) => {
         set({ isLoading: true, error: null });

@@ -54,9 +54,9 @@ export const authService = {
     try {
       const response = await api.post("/user/login", credentials);
       // After successful login, check if accessToken is available and store it in cookies
-      if (response.data.accessToken) {
+      if (Cookies.get("accessToken")) {
         // Cookies.set("accessToken", response.data.accessToken, { expires: 7 });
-        console.log("Token set in cookies:", response.data.accessToken); // Debugging line
+        console.log("Token set in cookies:"); // Debugging line
       } else {
         console.log("No accessToken received from backend"); // Debugging line
       }
