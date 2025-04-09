@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Home, ClipboardList, Menu, X, Moon, Sun, User } from "lucide-react";
+import { Home, ClipboardList, Menu, X, Moon, Sun, User, LogOut } from "lucide-react";
 import { useThemeStore } from "../../zustand/themeStore";
 import { useAuthStore } from "../../zustand/authStore";
 import axios from "axios";
@@ -88,27 +88,26 @@ const Sidebar = () => {
               className="flex items-center cursor-pointer"
               onClick={() => setShowProfileMenu(!showProfileMenu)}
             >
-              <div className="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center text-white">
+              {/* <div className="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center text-white">
                 <User size={16} />
-              </div>
-              <div className="ml-3">
+              </div> */}
+              {/* <div className="ml-3">
                 <p className="text-sm font-medium dark:text-white">User</p>
                 <p className="text-xs text-gray-500 dark:text-gray-400">
-                {/* {user?.email || "No email"} */}
                 </p>
-              </div>
+              </div> */}
             </div>
 
-            {showProfileMenu && (
+            {/* {showProfileMenu && ( */}
               <div className="absolute bottom-16 left-4 w-48 bg-white dark:bg-gray-700 shadow-lg rounded-md mt-2">
                 <button
                   onClick={handleLogout}
                   className="w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-600"
                 >
-                  Logout
+                  <LogOut size={16}/> Logout
                 </button>
               </div>
-            )}
+            {/* )} */}
           </div>
         </div>
       </div>
