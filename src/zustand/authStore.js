@@ -86,10 +86,12 @@ export const useAuthStore = create(
         isAuthenticated: state.isAuthenticated,
       }),
       onRehydrateStorage: () => (state) => {
+        // use setTimeout to ensure it's run after rehydration
         setTimeout(() => {
-          state.setState({ hasHydrated: true }); // ✅ correct hydration update
+          useAuthStore.setState({ hasHydrated: true });
         }, 0);
-      }
+      },
+      
       
     }
   )

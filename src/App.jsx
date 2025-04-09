@@ -18,7 +18,15 @@ import { useAuthStore } from "./zustand/authStore";
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated, hasHydrated } = useAuthStore();
 
-  if (!hasHydrated) return null; // wait for Zustand to load
+  if (!hasHydrated) {
+    return (
+      <div className="flex h-screen items-center justify-center text-lg font-semibold">
+        Loading...
+      </div>
+    );
+  }
+  
+
 
   return isAuthenticated ? children : <Navigate to="/login" replace />;
 };
