@@ -11,7 +11,7 @@ const Sidebar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { darkMode, toggleDarkMode } = useThemeStore();
-  const { logout } = useAuthStore();
+  const { logout, user } = useAuthStore();
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -94,7 +94,7 @@ const Sidebar = () => {
               <div className="ml-3">
                 <p className="text-sm font-medium dark:text-white">User</p>
                 <p className="text-xs text-gray-500 dark:text-gray-400">
-                  user@example.com
+                {user?.email || "No email"}
                 </p>
               </div>
             </div>
