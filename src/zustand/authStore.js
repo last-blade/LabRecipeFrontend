@@ -16,11 +16,16 @@ export const useAuthStore = create(
         set({ isLoading: true, error: null });
         try {
           const response = await authService.login(credentials);
+          console.log("✅ Logged in response", response); 
           set({
             user: response.user,
             token: response.token,
             isAuthenticated: true,
             isLoading: false,
+          });
+          console.log("✅ Zustand updated", {
+            user: response.data.user,
+            token: response.data.token,
           });
           return response;
         } catch (error) {

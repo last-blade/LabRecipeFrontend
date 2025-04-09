@@ -28,23 +28,14 @@ const Login = () => {
   // Handle form submission with API integration
   const handleApiLogin = async (data) => {
     try {
-      // Send the login request to the API
-      const response = await axios.post(
-        "https://labrecipebackend.onrender.com/api/v1/user/login",
-        data,
-        { withCredentials: true } // Ensures the cookie is sent with the request
-      );
-
-      if (response.status === 200) {
-        // Redirect to the dashboard page after successful login
-        console.log("dashboard navigate")
-        navigate("/dashboard");
-      }
+      const response = await handleLogin(data); // ✅ this updates Zustand
+      console.log("dashboard navigate");
+      navigate("/dashboard");
     } catch (err) {
-      // Handle any errors from the API
       setLoginError(err.response?.data?.message || "Something went wrong");
     }
   };
+  
 
   return (
     <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
