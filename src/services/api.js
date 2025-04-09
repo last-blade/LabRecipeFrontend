@@ -7,12 +7,13 @@ const API_URL = "https://labrecipebackend.onrender.com/api/v1";
 
 // Create axios instance with default config
 const api = axios.create({
-  baseURL: API_URL,
+  baseURL: "https://labrecipebackend.onrender.com/api/v1",
+  withCredentials: true, // ✅ required to send/receive cookies
   headers: {
     "Content-Type": "application/json",
   },
-  withCredentials: true, // Important for cookies if your API uses cookie-based auth
 });
+
 
 // Request interceptor for adding auth token
 api.interceptors.request.use(
