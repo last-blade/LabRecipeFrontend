@@ -16,9 +16,13 @@ import { useAuthStore } from "./zustand/authStore";
 
 // ✅ Protected route
 const ProtectedRoute = ({ children }) => {
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, hasHydrated } = useAuthStore();
+
+  if (!hasHydrated) return null; // wait for Zustand to load
+
   return isAuthenticated ? children : <Navigate to="/login" replace />;
 };
+
 
 const App = () => {
   const { hasHydrated } = useAuthStore();
@@ -69,11 +73,11 @@ const App = () => {
         <Route
           path="/dashboard"
           element={
-            
+            <ProtectedRoute>
               <Layout>
                 <Dashboard />
               </Layout>
-            
+            </ProtectedRoute>
           }
         />
         <Route
