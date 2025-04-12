@@ -84,29 +84,27 @@ const RecipeList = () => {
 
   const formatDate = (dateString) => {
     if (!dateString) return "N/A";
+  
     try {
-      let date = new Date(dateString);
+      // Remove leading '+' if present
+      let cleaned = dateString.startsWith('+') ? dateString.slice(1) : dateString;
   
-      // Get the year
-      let year = date.getFullYear();
-  
-      // If year is more than 2100 (likely a broken date like 202025), try fixing it
-      if (year > 2100) {
-        const raw = dateString.toString();
-  
-        const match = raw.match(/20(\d{2})\d{2}/); // e.g. 202025 -> match[1] = "25"
-        if (match) {
-          const correctedYear = `20${match[1]}`;
-          const correctedDateStr = raw.replace(/20\d{4}/, correctedYear);
-          date = new Date(correctedDateStr);
-        }
+      // Handle wrong years like 202025 → fix to 2025
+      const yearFixMatch = cleaned.match(/20(\d{2})\d{2}/); // e.g., 202025
+      if (yearFixMatch) {
+        const correctYear = `20${yearFixMatch[1]}`; // -> 2025
+        cleaned = cleaned.replace(/20\d{4}/, correctYear);
       }
+  
+      const date = new Date(cleaned);
+  
+      if (isNaN(date.getTime())) return "Invalid Date";
   
       const day = String(date.getDate()).padStart(2, "0");
       const month = String(date.getMonth() + 1).padStart(2, "0");
-      const fixedYear = date.getFullYear();
+      const year = date.getFullYear();
   
-      return `${day}/${month}/${fixedYear}`;
+      return `${day}/${month}/${year}`;
     } catch {
       return "Invalid Date";
     }
