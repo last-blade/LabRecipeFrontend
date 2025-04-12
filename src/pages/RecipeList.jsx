@@ -27,6 +27,7 @@ const RecipeList = () => {
           { withCredentials: true }
         );
         let fetchedRecipes = response.data.data?.labRecipes || [];
+        console.log(fetchRecipes)
         console.log(response);
         // Sort by partyName and registerNo
         fetchedRecipes.sort((a, b) => {
@@ -41,6 +42,7 @@ const RecipeList = () => {
         });
 
         setRecipes(fetchedRecipes);
+        console.log("recipes",recipes);
         setFilteredRecipes(fetchedRecipes);
       } catch (err) {
         console.error("Error fetching recipes:", err);
