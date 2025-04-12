@@ -26,7 +26,8 @@ const RecipeList = () => {
           "https://labrecipebackend.onrender.com/api/v1/recipe/total-recipes",
           { withCredentials: true }
         );
-        let fetchedRecipes = response.data.data?.labRecipes || [];
+        let fetchedRecipes = response.data.data[0].recipesData || [];
+        console.log(fetchRecipes)
         console.log(response);
         // Sort by partyName and registerNo
         fetchedRecipes.sort((a, b) => {
@@ -41,6 +42,7 @@ const RecipeList = () => {
         });
 
         setRecipes(fetchedRecipes);
+        console.log("recipes",recipes);
         setFilteredRecipes(fetchedRecipes);
       } catch (err) {
         console.error("Error fetching recipes:", err);
@@ -133,6 +135,9 @@ const RecipeList = () => {
                     Party
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    Fabric
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     RegNo.
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
@@ -176,6 +181,11 @@ const RecipeList = () => {
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm font-medium text-gray-900 dark:text-white">
                           {recipe.partyName}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="text-sm font-medium text-gray-900 dark:text-white">
+                          {recipe.fabricName}
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
