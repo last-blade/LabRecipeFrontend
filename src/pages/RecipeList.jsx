@@ -23,11 +23,11 @@ const RecipeList = () => {
       setIsLoading(true);
       try {
         const response = await axios.get(
-          "https://labrecipebackend.onrender.com/api/v1/recipe/view-all-recipes",
+          "https://labrecipebackend.onrender.com/api/v1/recipe/total-recipes",
           { withCredentials: true }
         );
         let fetchedRecipes = response.data.data?.labRecipes || [];
-
+      console.log(response);
         // Sort by partyName and registerNo
         fetchedRecipes.sort((a, b) => {
           const nameA = a.partyName.toLowerCase();
