@@ -44,6 +44,7 @@ const RecipeForm = () => {
 
   const [selectedDate, setSelectedDate] = useState(null);
   const [colors, setColors] = useState([]);
+  const [percentages, setPercentages] = useState([0, 0, 0, 0]);
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -57,16 +58,63 @@ const RecipeForm = () => {
     setValue(`color${index + 1}`, color.hex);
   };
 
+  const handleColorInputChange = (e, index) => {
+    const newColors = [...colors];
+    newColors[index] = e.target.value;
+    setColors(newColors);
+  };
+
   useEffect(() => {
-    const date = watch("date");
-    if (
-      date &&
-      (!selectedDate ||
-        new Date(date).getTime() !== new Date(selectedDate).getTime())
-    ) {
-      setSelectedDate(new Date(date));
+    if (recipeId) {
+      axios
+        .get(`/api/v1/recipe/view-recipe/${recipeId}`)
+        .then((res) => {
+          const data = res.data?.data;
+
+          if (data) {
+            // Set the form data for the recipe
+            setValue("partyName", data.partyName);
+            setValue("fabricName", data.fabricName);
+            setValue("lotNo", data.lotNo);
+            setValue("registerNo", data.registerNo);
+            setValue("shade", data.shade);
+            setValue("remarks", data.remarks);
+            setValue("date", new Date(data.date));
+
+            // Set colors
+            const colorsArray = [
+              data.color1 || "#ffffff",
+              data.color2 || "#ffffff",
+              data.color3 || "#ffffff",
+              data.color4 || "#ffffff",
+            ];
+            setColors(colorsArray);
+            setValue("color1", colorsArray[0]);
+            setValue("color2", colorsArray[1]);
+            setValue("color3", colorsArray[2]);
+            setValue("color4", colorsArray[3]);
+
+            // Set percentages
+            const percentagesArray = [
+              data.percentage1 || 0,
+              data.percentage2 || 0,
+              data.percentage3 || 0,
+              data.percentage4 || 0,
+            ];
+            setPercentages(percentagesArray);
+            setValue("percentage1", percentagesArray[0]);
+            setValue("percentage2", percentagesArray[1]);
+            setValue("percentage3", percentagesArray[2]);
+            setValue("percentage4", percentagesArray[3]);
+
+            setSelectedDate(new Date(data.date));
+          }
+        })
+        .catch((err) => {
+          console.error("Failed to fetch recipe:", err);
+        });
     }
-  }, [watch("date")]);
+  }, [recipeId, setValue]);
 
   const onSubmit = (data) => {
     if (recipeId) {
@@ -75,18 +123,6 @@ const RecipeForm = () => {
       createRecipe(data);
     }
   };
-
-  const handleColorInputChange = (e, index) => {
-    const newColors = [...colors];
-    newColors[index] = e.target.value;
-    setColors(newColors);
-  };
-
-  // const handleColorChange = (color, index) => {
-  //   const newColors = [...colors];
-  //   newColors[index] = color.hex;
-  //   setColors(newColors);
-  // };
 
   return (
     <div className="container mx-auto py-8">
@@ -99,24 +135,26 @@ const RecipeForm = () => {
         <CardBody>
           <form onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Select
+              <Input
                 label="Party Name"
                 name="partyName"
-                options={partyOptions}
-                placeholder="Select Party"
+                placeholder="Enter Party Name"
                 icon={Package}
                 error={errors.partyName?.message}
-                {...register("partyName")}
+                {...register("partyName", {
+                  required: "Party Name is required",
+                })}
               />
 
-              <Select
+              <Input
                 label="Fabric Name"
                 name="fabricName"
-                options={fabricOptions}
-                placeholder="Select Fabric"
+                placeholder="Enter Fabric Name"
                 icon={Shirt}
                 error={errors.fabricName?.message}
-                {...register("fabricName")}
+                {...register("fabricName", {
+                  required: "Fabric Name is required",
+                })}
               />
 
               <Input
@@ -179,7 +217,7 @@ const RecipeForm = () => {
                       }
                     />
                     <Input
-                      type="number"
+                      type="string"
                       step="any"
                       min={0}
                       max={100}
