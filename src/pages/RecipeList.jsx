@@ -85,11 +85,33 @@ const RecipeList = () => {
   const formatDate = (dateString) => {
     if (!dateString) return "N/A";
     try {
-      return new Date(dateString).toLocaleDateString();
+      let date = new Date(dateString);
+  
+      // Get the year
+      let year = date.getFullYear();
+  
+      // If year is more than 2100 (likely a broken date like 202025), try fixing it
+      if (year > 2100) {
+        const raw = dateString.toString();
+  
+        const match = raw.match(/20(\d{2})\d{2}/); // e.g. 202025 -> match[1] = "25"
+        if (match) {
+          const correctedYear = `20${match[1]}`;
+          const correctedDateStr = raw.replace(/20\d{4}/, correctedYear);
+          date = new Date(correctedDateStr);
+        }
+      }
+  
+      const day = String(date.getDate()).padStart(2, "0");
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const fixedYear = date.getFullYear();
+  
+      return `${day}/${month}/${fixedYear}`;
     } catch {
-      return dateString;
+      return "Invalid Date";
     }
   };
+  
 
   return (
     <div className="container mx-auto py-8">
