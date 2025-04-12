@@ -86,18 +86,23 @@ const RecipeList = () => {
     if (!dateString) return "N/A";
   
     try {
-      // Remove leading '+' if present
+      // Remove any leading +
       let cleaned = dateString.startsWith('+') ? dateString.slice(1) : dateString;
   
-      // Handle wrong years like 202025 → fix to 2025
-      const yearFixMatch = cleaned.match(/20(\d{2})\d{2}/); // e.g., 202025
-      if (yearFixMatch) {
-        const correctYear = `20${yearFixMatch[1]}`; // -> 2025
-        cleaned = cleaned.replace(/20\d{4}/, correctYear);
+      let date = new Date(cleaned);
+  
+      // If year is invalid (e.g. 202025), fix it manually
+      if (date.getFullYear() > 2100 || isNaN(date.getTime())) {
+        const match = cleaned.match(/(\d{4,6})-(\d{2})-(\d{2})/); // capture long year
+        if (match) {
+          let rawYear = match[1]; // e.g. 202025
+          let correctedYear = rawYear.slice(-4); // get last 4 digits: "2025"
+          let finalDate = `${correctedYear}-${match[2]}-${match[3]}`;
+          date = new Date(finalDate);
+        }
       }
   
-      const date = new Date(cleaned);
-  
+      // Fallback check
       if (isNaN(date.getTime())) return "Invalid Date";
   
       const day = String(date.getDate()).padStart(2, "0");
