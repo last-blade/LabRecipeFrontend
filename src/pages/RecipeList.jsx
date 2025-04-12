@@ -26,7 +26,7 @@ const RecipeList = () => {
           "https://labrecipebackend.onrender.com/api/v1/recipe/total-recipes",
           { withCredentials: true }
         );
-        let fetchedRecipes = response.data.data?.labRecipes || [];
+        let fetchedRecipes = response.data.data?.recipesData || [];
         console.log(fetchRecipes)
         console.log(response);
         // Sort by partyName and registerNo
