@@ -29,7 +29,7 @@ const RecipeList = () => {
 
         console.log("Response", response.data)
         let fetchedRecipes = response.data.data?.labRecipes || [];
-
+      console.log(response);
         // Sort by partyName and registerNo
         fetchedRecipes.sort((a, b) => {
           const nameA = a.partyName.toLowerCase();
