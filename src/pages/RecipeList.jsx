@@ -26,28 +26,30 @@ const RecipeList = () => {
           "https://labrecipebackend.onrender.com/api/v1/recipe/total-recipes",
           { withCredentials: true }
         );
-
-        console.log("Response", response.data)
-        let fetchedRecipes = response.data.data?.labRecipes || [];
-      console.log(response);
+      
+        console.log("Response", response.data);
+      
+        let fetchedRecipes = response.data.data[0].recipesData || [];
+      
         // Sort by partyName and registerNo
         fetchedRecipes.sort((a, b) => {
           const nameA = a.partyName.toLowerCase();
           const nameB = b.partyName.toLowerCase();
           if (nameA < nameB) return -1;
           if (nameA > nameB) return 1;
-
+      
           const regA = a.registerNo.toLowerCase();
           const regB = b.registerNo.toLowerCase();
           return regA.localeCompare(regB);
         });
-
+      
         setRecipes(fetchedRecipes);
         setFilteredRecipes(fetchedRecipes);
       } catch (err) {
         console.error("Error fetching recipes:", err);
         setError("Failed to load recipes. Please try again later.");
-      } finally {
+      }
+       finally {
         setIsLoading(false);
       }
     };
