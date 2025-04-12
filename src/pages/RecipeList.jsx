@@ -8,7 +8,7 @@ import Input from "../components/ui/Input";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "react-hot-toast";
-import { deleteRecipe } from "../services/recipe-service";  
+import { deleteRecipe } from "../services/recipe-service";
 
 const RecipeList = () => {
   const [recipes, setRecipes] = useState([]);
@@ -26,30 +26,26 @@ const RecipeList = () => {
           "https://labrecipebackend.onrender.com/api/v1/recipe/total-recipes",
           { withCredentials: true }
         );
-      
-        console.log("Response", response.data);
-      
-        let fetchedRecipes = response.data.data[0].recipesData || [];
-      
+        let fetchedRecipes = response.data.data?.labRecipes || [];
+        console.log(response);
         // Sort by partyName and registerNo
         fetchedRecipes.sort((a, b) => {
           const nameA = a.partyName.toLowerCase();
           const nameB = b.partyName.toLowerCase();
           if (nameA < nameB) return -1;
           if (nameA > nameB) return 1;
-      
+
           const regA = a.registerNo.toLowerCase();
           const regB = b.registerNo.toLowerCase();
           return regA.localeCompare(regB);
         });
-      
+
         setRecipes(fetchedRecipes);
         setFilteredRecipes(fetchedRecipes);
       } catch (err) {
         console.error("Error fetching recipes:", err);
         setError("Failed to load recipes. Please try again later.");
-      }
-       finally {
+      } finally {
         setIsLoading(false);
       }
     };
@@ -70,19 +66,19 @@ const RecipeList = () => {
     setFilteredRecipes(filtered);
   }, [searchQuery, recipes]);
 
-const handleDeleteRecipe = async (recipeId) => {
-  if (!window.confirm("Are you sure you want to delete this recipe?")) return;
+  const handleDeleteRecipe = async (recipeId) => {
+    if (!window.confirm("Are you sure you want to delete this recipe?")) return;
 
-  try {
-    await deleteRecipe(recipeId);
-    toast.success("Recipe deleted successfully!");
+    try {
+      await deleteRecipe(recipeId);
+      toast.success("Recipe deleted successfully!");
 
-    // Remove the deleted recipe from local state
-    setRecipes((prev) => prev.filter((r) => r._id !== recipeId));
-  } catch (error) {
-    toast.error(error?.message || "Failed to delete recipe.");
-  }
-};
+      // Remove the deleted recipe from local state
+      setRecipes((prev) => prev.filter((r) => r._id !== recipeId));
+    } catch (error) {
+      toast.error(error?.message || "Failed to delete recipe.");
+    }
+  };
 
   const formatDate = (dateString) => {
     if (!dateString) return "N/A";
@@ -129,15 +125,12 @@ const handleDeleteRecipe = async (recipeId) => {
             </div>
           )}
 
-          <div className="overflow-x-auto">
+          <div className="w-full max-w-full overflow-auto max-h-[600px] border border-gray-200 dark:border-gray-700 rounded-lg">
             <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-              <thead className="bg-gray-50 dark:bg-gray-800">
+              <thead className="bg-gray-50 dark:bg-gray-800 sticky top-0 z-10">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     Party
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                    Fabric
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     RegNo.
@@ -152,14 +145,14 @@ const handleDeleteRecipe = async (recipeId) => {
                     Date
                   </th>
                   <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                   | View  Edit Delete |
+                    | View Edit Delete |
                   </th>
                 </tr>
               </thead>
               <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-800">
                 {isLoading ? (
                   <tr>
-                    <td colSpan="5" className="px-6 py-4 text-center">
+                    <td colSpan="6" className="px-6 py-4 text-center">
                       <div className="flex justify-center">
                         <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-indigo-600"></div>
                       </div>
@@ -168,7 +161,7 @@ const handleDeleteRecipe = async (recipeId) => {
                 ) : filteredRecipes.length === 0 ? (
                   <tr>
                     <td
-                      colSpan="5"
+                      colSpan="6"
                       className="px-6 py-4 text-center text-gray-500 dark:text-gray-400"
                     >
                       No Results Found
@@ -183,11 +176,6 @@ const handleDeleteRecipe = async (recipeId) => {
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm font-medium text-gray-900 dark:text-white">
                           {recipe.partyName}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-gray-900 dark:text-white">
-                          {recipe.fabricName}
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
