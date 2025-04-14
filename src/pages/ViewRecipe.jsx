@@ -9,23 +9,11 @@ import TextArea from "../components/ui/TextArea";
 import DatePicker from "../components/ui/DatePicker";
 import { SketchPicker } from "react-color";
 import { useParams } from "react-router-dom";
-import axios from "../lib/axios"; // Axios wrapper with base URL
-
-const partyOptions = [
-  { value: "Party1", label: "Party 1" },
-  { value: "Party2", label: "Party 2" },
-  { value: "Party3", label: "Party 3" },
-];
-
-const fabricOptions = [
-  { value: "cotton", label: "Cotton" },
-  { value: "polyester", label: "Polyester" },
-  { value: "silk", label: "Silk" },
-  { value: "wool", label: "Wool" },
-];
+import axios from "../lib/axios";
 
 const ViewRecipe = () => {
   const { recipeId } = useParams();
+
   const [formData, setFormData] = useState({});
   const [selectedDate, setSelectedDate] = useState(null);
   const [colors, setColors] = useState([
@@ -37,49 +25,35 @@ const ViewRecipe = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-useEffect(() => {
-  if (recipeId) {
-    axios
-      .get(`/api/v1/recipe/view-recipe/${recipeId}`)
-      .then((res) => {
-        const data = res.data?.data;
+  useEffect(() => {
+    if (recipeId) {
+      axios
+        .get(`/api/v1/recipe/view-recipe/${recipeId}`)
+        .then((res) => {
+          const data = res.data?.data;
 
-        if (data) {
-          const normalizedData = {
-            ...data,
-            partyName:
-              partyOptions.find(
-                (opt) =>
-                  opt.value.toLowerCase() === data.partyName.toLowerCase()
-              )?.value || "",
-            fabricName:
-              fabricOptions.find(
-                (opt) =>
-                  opt.value.toLowerCase() === data.fabricName.toLowerCase()
-              )?.value || "",
-          };
+          if (data) {
+            setFormData(data);
 
-          setFormData(normalizedData);
+            if (data.date) setSelectedDate(new Date(data.date));
 
-          if (data.date) setSelectedDate(new Date(data.date));
+            setColors([
+              data.color1 || "#ffffff",
+              data.color2 || "#ffffff",
+              data.color3 || "#ffffff",
+              data.color4 || "#ffffff",
+            ]);
+          }
 
-          setColors([
-            data.color1 || "#ffffff",
-            data.color2 || "#ffffff",
-            data.color3 || "#ffffff",
-            data.color4 || "#ffffff",
-          ]);
-        }
-
-        setLoading(false); // ✅ Fix here
-      })
-      .catch((err) => {
-        console.error("Failed to fetch recipe:", err);
-        setError("Failed to load recipe details.");
-        setLoading(false); // ✅ And here
-      });
-  }
-}, [recipeId]);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.error("Failed to fetch recipe:", err);
+          setError("Failed to load recipe details.");
+          setLoading(false);
+        });
+    }
+  }, [recipeId]);
 
   if (loading) {
     return (
@@ -103,21 +77,19 @@ useEffect(() => {
         </CardHeader>
         <CardBody>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Select
+            <Input
               label="Party Name"
               name="partyName"
-              options={partyOptions}
-              placeholder="Select Party"
+              placeholder="Party Name"
               icon={Package}
               disabled
               value={formData?.partyName || ""}
             />
 
-            <Select
+            <Input
               label="Fabric Name"
               name="fabricName"
-              options={fabricOptions}
-              placeholder="Select Fabric"
+              placeholder="Fabric Name"
               icon={Shirt}
               disabled
               value={formData?.fabricName || ""}
@@ -175,23 +147,28 @@ useEffect(() => {
                     disabled
                   />
 
-                  <div className="pointer-events-none opacity-50">
+                  {/* Optional: Uncomment to show the color picker in readonly */}
+                  {/* <div className="pointer-events-none opacity-50">
                     <SketchPicker
                       color={colors[index]}
                       onChangeComplete={() => {}}
                       disableAlpha
                       presetColors={[]}
                     />
-                  </div>
+                  </div> */}
 
                   <Input
-                    type="number"
+                    type="string"
                     step="any"
                     min={0}
                     max={100}
                     label={`Percentage ${index + 1}`}
                     name={`percentage${index + 1}`}
-                    value={formData?.[`percentage${index + 1}`] || ""}
+                    value={
+                      formData?.[`percentage${index + 1}`] !== undefined
+                        ? formData[`percentage${index + 1}`]
+                        : ""
+                    }
                     placeholder="Enter Percentage"
                     disabled
                   />
