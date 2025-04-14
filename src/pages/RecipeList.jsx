@@ -63,7 +63,8 @@ const RecipeList = () => {
         recipe.partyName.toLowerCase().includes(query) ||
         recipe.registerNo.toLowerCase().includes(query) ||
         recipe.lotNo.toLowerCase().includes(query) || 
-        recipe.fabricName.toLowerCase().includes(query)
+        recipe.fabricName.toLowerCase().includes(query) ||
+        recipe.shade.toLowerCase().includes(query)
       );
     });
 
