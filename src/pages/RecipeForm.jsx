@@ -210,12 +210,12 @@ const RecipeForm = () => {
                       onChange={(e) => handleColorInputChange(e, index)}
                     />
 
-                    <SketchPicker
+                    {/* <SketchPicker
                       color={colors[index]}
                       onChangeComplete={(color) =>
                         handleColorChange(color, index)
                       }
-                    />
+                    /> */}
                     <Input
                       type="string"
                       step="any"
