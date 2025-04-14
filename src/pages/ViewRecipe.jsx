@@ -35,7 +35,13 @@ const ViewRecipe = () => {
           if (data) {
             setFormData(data);
 
-            if (data.date) setSelectedDate(new Date(data.date));
+            if (data.date) {
+              let rawDate = data.date.toString();
+              const match = rawDate.match(/(19|20)\d{2}-\d{2}-\d{2}/);
+              const validDate = match ? new Date(match[0]) : null;
+              setSelectedDate(validDate);
+            }
+            
 
             setColors([
               data.color1 || "#ffffff",
